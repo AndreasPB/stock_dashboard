@@ -1,0 +1,9 @@
+version: "3"
+services: 
+  dashboard:
+    build: .
+    container_name: "dashboard"
+    ports: 
+        - "8020:8020"
+    volumes: 
+        - ./src/:/app/src
