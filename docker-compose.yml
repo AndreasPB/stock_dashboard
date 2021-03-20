@@ -6,4 +6,4 @@ services:
     ports: 
         - "8020:8020"
     volumes: 
-        - ./src/:/app/src
+        - ./app/:/app/app
