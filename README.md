@@ -3,6 +3,9 @@ Created with FastAPI
 
 Practice for an exam project
 
-Run with docker:  
+<b>How to:</b>  
+* Clone project however you want. ex: 
+```gh repo clone AndreasPB/stock_dashboard```   
+* Run with docker: 
 ```docker-compose up --build```  
-URL = localhost:8020
+* Go to URL: http://localhost:8020/
