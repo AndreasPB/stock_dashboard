@@ -25,12 +25,32 @@ def get_db():
         db.close()    
 
 @app.get('/')
-def dashboard(request: Request):
+def dashboard(request: Request, forward_pe = None, dividend_yield = None, 
+              ma50 = None, ma200 = None, db: Session = Depends(get_db)):
     """
     Displays the stock dashboard
     """
+    stocks = db.query(Stock)
+
+    if forward_pe:
+        stocks = stocks.filter(Stock.forward_pe < forward_pe)
+
+    if dividend_yield:
+        stocks = stocks.filter(Stock.dividend_yield > dividend_yield)
+
+    if ma50:
+        stocks = stocks.filter(Stock.price > Stock.ma50)
+
+    if ma200:
+        stocks = stocks.filter(Stock.price > Stock.ma200)
+
     return templates.TemplateResponse('dashboard.html',{
-        'request': request
+        'request': request,
+        'stocks': stocks,
+        'forward_pe': forward_pe,
+        'dividend_yield': dividend_yield,
+        'ma50': ma50,
+        'ma200': ma200,
     })
 
 def fetch_stock_data(id: int):
@@ -44,9 +64,7 @@ def fetch_stock_data(id: int):
     stock.price = yahoo_data.info['previousClose']
     stock.forward_pe = yahoo_data.info['forwardPE']
     stock.forward_eps = yahoo_data.info['forwardEps']
-    
-    if yahoo_data.info['dividendYield'] is not None: 
-        stock.dividend_yield = yahoo_data.info['dividendYield'] * 100
+    stock.dividend_yield = yahoo_data.info['dividendYield'] * 100
 
     db.add(stock)
     db.commit()
