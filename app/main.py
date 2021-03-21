@@ -1,10 +1,11 @@
-import app.models as models
 import yfinance
-from fastapi import FastAPI, Request, Depends, BackgroundTasks
+from fastapi import BackgroundTasks, Depends, FastAPI, Request
 from fastapi.templating import Jinja2Templates
-from sqlalchemy.orm import Session
-from app.database import SessionLocal, engine
 from pydantic import BaseModel
+from sqlalchemy.orm import Session
+
+import app.models as models
+from app.database import SessionLocal, engine
 from app.models import Stock
 
 app = FastAPI()
